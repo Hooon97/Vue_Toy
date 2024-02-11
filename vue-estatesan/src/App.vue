@@ -1,10 +1,5 @@
 <template>
 
-  <!-- UI 만드는 방법
-    1. HTML, CSS 등 기본적인 형식을 만든다.
-    2. UI의 현재 상태를 데이터로 저장하며 관리한다.
-    3. 데이터에 따라 UI가 어떻게 보일지를 결정한다.
-   -->
   <div class = "black-bg" v-if="modalFlag"> 
     <div class = "white-bg"> 
       <h4>상세페이지</h4>
@@ -18,40 +13,39 @@
     <a v-for="(iter_name, unique1) in menus" :key="unique1"> {{iter_name}} </a>
   </div>
 
-  <div v-for="(product, rooms) in products" :key="rooms">
-    <!-- 이처럼 가변경로를 입력해주는 방식을 webpack이라고 하며, 고전적인 방식이다.-->
-    <img :src="require(`./assets/room${rooms}.jpg`)" class="room-img">
-    <h4 @click="offModal()">{{product}}</h4>
-    <p>100 만원 </p>
-    <button @click="increaseReport(rooms)">허위매물 신고 버튼 </button> <span>신고 수 : {{reports[rooms]}}</span>
+
+  <div v-for="(product, product_idx) in products" :key="product_idx"> 
+    <img :src="product.image" class = "room-img">
+    <h4 @click="offModal()"> {{product.title}} </h4>
+    <p> {{product.price}} 만원</p>
   </div>
+  
+  
 </template>
 
 <script>
 //문법만 외우면 코딩 인생 망함 ㅋㅋㅋ
 //그 문법을 언제, 왜 쓰는지 알아야함ㅋㅋㅋ
+
+//외부 파일의 데이터, 함수 등을 가져와 사용할 때는 import를 통해 사용할 수 있다.
+//단, import 하고자 하는 파일도 export가 정의되어 있어야 한다.
+import oneroomData from './assets/data.js'
+
 export default {
   name: 'App',
 
   //데이터 보관함, object 자료 형식으로 저장함
   data(){
     return {
-      //데이터 바인딩
-      price1 : 60,
-      price2 : 90,
       //속성 데이터 바인딩
       스타일: "color : red",
-      products : ['역삼동원룸', '천호동원룸', '강남구원룸'],
-      reports : [0,0,0],
+      products : oneroomData,
       menus : ['Home', 'Shop', 'About'],
       // 모달 UI 상태값
       modalFlag : false,
     }
   },
   methods:{
-    increaseReport(idx){
-      this.reports[idx]++;
-    },
     offModal(){
       this.modalFlag = !this.modalFlag
     },
