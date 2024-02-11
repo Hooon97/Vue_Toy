@@ -1,24 +1,16 @@
 <template>
 
-  <div class = "black-bg" v-if="modalFlag"> 
-    <div class = "white-bg"> 
-      <h4>{{products[curModIdx].title}}</h4>
-      <p>{{products[curModIdx].content}} </p>
-      <button @click="offModal()"> 닫기 </button>
-    </div>
-  </div>
-
+  <RoomModal :rooms="products" :flag="modalFlag" :index="curModIdx"/>
 
   <div class = "menu">
     <a v-for="(iter_name, unique1) in menus" :key="unique1"> {{iter_name}} </a>
   </div>
 
+  <DiscountBanner/>
 
-  <div v-for="(product, product_idx) in products" :key="product_idx"> 
-    <img :src="product.image" class = "room-img">
-    <h4 @click="offModal(product_idx)"> {{product.title}} </h4>
-    <p> {{product.price}} 만원</p>
-  </div>
+
+  <RoomCard v-for="(product, prd_idx) in products" :key="prd_idx" 
+    :room="product" />
   
   
 </template>
@@ -30,6 +22,9 @@
 //외부 파일의 데이터, 함수 등을 가져와 사용할 때는 import를 통해 사용할 수 있다.
 //단, import 하고자 하는 파일도 export가 정의되어 있어야 한다.
 import oneroomData from './assets/data.js'
+import DiscountBanner from './DiscountBanner.vue'
+import RoomModal from './RoomModal.vue'
+import RoomCard from './RoomCard.vue'
 
 export default {
   name: 'App',
@@ -47,13 +42,25 @@ export default {
     }
   },
   methods:{
-    offModal(idx){
-      this.curModIdx = idx;
-      this.modalFlag = !this.modalFlag
+    offModal(product_idx){
+      this.curModIdx = product_idx;
+      this.modalFlag = true;
     },
   },
+
+  /* 그래서 이거 왜 씀?
+  1. 코드 축약이 가능하기 때문이다. -> 단위 코드로 해석이 가능하여 복잡성 감소
+  2. 코드 재사용에 용이하다.
+  3. 코드 관리가 용이함. (수정, 유지 보수)
+  컴포넌트는 무조건 많이 만든다고 좋은 게 아니다. 어떤 상황에선 데이터 기입에 문제가 발생할 수 있다.
+  초보자 특) 무조건 컴포넌트화 시키려고 함
+  */
   components: {
-    
+    //왼쪽은 자유 작명(내가 사용할 이름), 오른쪽은 import 해올 때 사용한 이름
+    // ES6 문법에서는, 좌우측의 이름이 같으면 하나로 축약 가능 ex) Discount
+    DiscountBanner, // DiscountBanner : DiscountBanner
+    RoomModal,
+    RoomCard,
   }
 }
 </script>
@@ -66,24 +73,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 20px;
-}
-
-.black-bg {
-  width: 100%; height: 100%;
-  background : rgba(0,0,0,0.5);
-  position:fixed; padding:20px;
-}
-
-.white-bg {
-  width : 100%; background : white;
-  border-radius : 8px;
-  padding : 20px;
-}
-
-.room-img {
-  width : 50%;
-  padding-top : 40px;
-
 }
 
 .menu {
