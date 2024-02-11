@@ -1,6 +1,9 @@
 <template>
-
-  <RoomModal :rooms="products" :flag="modalFlag" :index="curModIdx"/>
+  <div>
+    <RoomModal v-if="modalFlag"
+       :rooms="products" :index="curModIdx" :modalFlag="modalFlag"
+        @closeModal = "modalFlag = false"/>
+  </div>
 
   <div class = "menu">
     <a v-for="(iter_name, unique1) in menus" :key="unique1"> {{iter_name}} </a>
@@ -9,7 +12,8 @@
   <DiscountBanner/>
 
 
-  <RoomCard v-for="(product, prd_idx) in products" :key="prd_idx" 
+  <RoomCard v-for="(product, prd_idx) in products" :key="prd_idx"
+    @openModal = "modalFlag = true; curModIdx = $event"
     :room="product" />
   
   
