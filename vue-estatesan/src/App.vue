@@ -2,8 +2,8 @@
 
   <div class = "black-bg" v-if="modalFlag"> 
     <div class = "white-bg"> 
-      <h4>상세페이지</h4>
-      <p>상세 페이지 내용 </p>
+      <h4>{{products[curModIdx].title}}</h4>
+      <p>{{products[curModIdx].content}} </p>
       <button @click="offModal()"> 닫기 </button>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
   <div v-for="(product, product_idx) in products" :key="product_idx"> 
     <img :src="product.image" class = "room-img">
-    <h4 @click="offModal()"> {{product.title}} </h4>
+    <h4 @click="offModal(product_idx)"> {{product.title}} </h4>
     <p> {{product.price}} 만원</p>
   </div>
   
@@ -43,10 +43,12 @@ export default {
       menus : ['Home', 'Shop', 'About'],
       // 모달 UI 상태값
       modalFlag : false,
+      curModIdx : 0,
     }
   },
   methods:{
-    offModal(){
+    offModal(idx){
+      this.curModIdx = idx;
       this.modalFlag = !this.modalFlag
     },
   },
