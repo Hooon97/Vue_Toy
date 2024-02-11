@@ -1,9 +1,17 @@
 <template>
-  <div>
-    <RoomModal v-if="modalFlag"
+
+  <!-- 
+  <div class = "start" :class="{end : modalFlag}">
+
+  </div>
+  -->
+
+    <!-- Vue 제공 animation css -->
+    <transition name="fade">
+    <RoomModal v-if="modalFlag" 
        :rooms="products" :index="curModIdx" :modalFlag="modalFlag"
         @closeModal = "modalFlag = false"/>
-  </div>
+    </transition>
 
   <div class = "menu">
     <a v-for="(iter_name, unique1) in menus" :key="unique1"> {{iter_name}} </a>
@@ -86,7 +94,44 @@ export default {
 }
 .menu a {
   color : white;
-  padding : 10px;
-  
+  padding : 10px; 
+}
+
+.start {
+  opacity: 0;
+  Transition: all 1s;
+}
+.end {
+  opacity : 1;
+}
+
+/* 시작 시 스타일 */
+.fade-enter-from{
+  opacity : 0;
+}
+
+/* 애니메이션 스타일 */
+.fade-enter-active{
+  Transition: all 1s;
+}
+
+/* 종료 시 스타일 */
+.fade-enter-to{
+  opacity : 1;
+}
+
+/* 시작 시 스타일 */
+.fade-leave-from{
+  opacity : 1;
+}
+
+/* 애니메이션 스타일 */
+.fade-leave-active{
+  Transition: all 1s;
+}
+
+/* 종료 시 스타일 */
+.fade-leave-to{
+  opacity : 0;
 }
 </style>
