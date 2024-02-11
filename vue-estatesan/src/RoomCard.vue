@@ -2,7 +2,7 @@
 
   <div> 
     <img :src="room.image" class = "room-img">
-    <h4> {{room.title}} </h4>
+    <h4 @click = "send()"> {{room.title}} </h4>
     <p> {{room.price}} 만원</p>
   </div>
 </template>
@@ -18,6 +18,11 @@ export default {
     data(){
         return {
 
+        }
+    },
+    methods:{
+        send(){
+            this.$emit('openModal', this.room.id)
         }
     },
     components: {
