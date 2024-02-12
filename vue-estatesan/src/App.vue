@@ -1,8 +1,4 @@
 <template>
-    <button @click="priceSortDesc()"> 가격 높은 순 정렬 </button>
-    <button @click="priceSortAsc()"> 가격 낮은 순 정렬 </button>
-    <button @click="priceSortTitle()"> 제목 순 정렬 </button>
-    <button @click="sortBack()"> 되돌리기 </button>
 
     <transition name="fade">
     <RoomModal v-if="modalFlag" 
@@ -14,7 +10,12 @@
     <a v-for="(iter_name, unique1) in menus" :key="unique1"> {{iter_name}} </a>
   </div>
 
-  <DiscountBanner/>
+  <button @click="priceSortDesc()"> 가격 높은 순 정렬 </button>
+  <button @click="priceSortAsc()"> 가격 낮은 순 정렬 </button>
+  <button @click="priceSortTitle()"> 제목 순 정렬 </button>
+  <button @click="sortBack()"> 되돌리기 </button>
+
+  <DiscountBanner :amountDiscount="amountDiscount" />
 
 
   <RoomCard v-for="(product, prd_idx) in products" :key="prd_idx"
@@ -46,6 +47,10 @@ export default {
       // 모달 UI 상태값
       modalFlag : false,
       curModIdx : 0,
+      // DiscountBanner 상태 값 저장
+      showDiscount : true,
+      // DiscountBanner 할인율
+      amountDiscount : 30,
     }
   },
   methods:{
@@ -72,6 +77,32 @@ export default {
       // deep copy
       this.products = [...this.origin_products];
     },
+  },
+
+  /*create - mount - 컴포넌트 생성 - update 단계 - unmount 단계로 구성되는데,
+    각 단계 이 전, 이 후 별로 hook을 걸 수 있다.
+
+    보통 서버에서 데이터를 받아올 때 (AJAX) Life Cycle Hook을 자주 사용한다.
+  */
+  //life cycle hooks 설정. mount 되고 난 후의 설정
+  mounted (){
+    // JS function에는 function()과 => (arrow Function) 두 종류가 있다.
+    // Arrow Function의 경우 this.를 통해 데이터를 받아올 수 있다.
+    // setTimeout(() => {
+    //   this.showDiscount = false;
+    // }, 2000)
+
+      var timer = setInterval(() => {
+        this.amountDiscount--;
+      }, 1000)
+
+      setTimeout(()=>{
+        clearInterval(timer);
+      }, 10000)
+  },
+  //life cycle hooks 설정. mount 되기 이전의 설정. 
+  beforeMount() {
+
   },
   components: {
 

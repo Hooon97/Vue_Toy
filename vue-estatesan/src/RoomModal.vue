@@ -1,7 +1,6 @@
 <template>
   <div class = "black-bg"> 
     <div class = "white-bg"> 
-      <DiscountBanner/>
       <img :src="rooms[index].image" class ="room-img"/>
       <h4>{{rooms[index].title}}</h4>
       <p>{{rooms[index].content}} </p>
@@ -13,7 +12,6 @@
 </template>
 
 <script>
-import DiscountBanner from './DiscountBanner.vue'
 
 export default {
     name:'RoomModal',
@@ -25,9 +23,6 @@ export default {
         return {
             month : 1,
         }
-    },
-    components : {
-        DiscountBanner,
     },
     watch : {
       month(number) {
@@ -42,6 +37,12 @@ export default {
         }
       },
     },
+    updated(){
+      if(this.month == 2){
+        alert("2개월은 안됨")
+        this.month = 1;
+      }
+    }
 }
     
 </script>
