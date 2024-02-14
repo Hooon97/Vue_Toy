@@ -1,9 +1,7 @@
 <template>
   <div calss = "blog_main"
         v-for="(board, board_index) in boardContents" :key="board_index">
-    <router-link to="/detail"> 
-        <h5> {{board.title}} </h5> 
-    </router-link>
+    <router-link v-bind:to="`/detail/${board.number}`"> <h5> {{board.title}} </h5> </router-link>
     <p>{{board.content}}</p>
     <p> {{board.date}} </p>
   </div>
